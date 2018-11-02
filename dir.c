@@ -74,7 +74,7 @@ void print_info(struct dirent* file) {
   free(readable_mode);
 
   // number of links!
-  printf("%3hu ", file_stats->st_nlink);
+  printf("%3lu ", file_stats->st_nlink);
 
   // user
   printf("%3u ", file_stats->st_uid);
