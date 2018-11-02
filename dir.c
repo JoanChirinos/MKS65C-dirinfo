@@ -164,8 +164,21 @@ int main() {
 
   DIR* dir = opendir(".");
   struct dirent* current_file;
+  // go through directories first
   while ((current_file = readdir(dir)) != NULL) {
-    print_info(current_file);
+    if (current_file->d_type == DIRECTORY_D_TYPE) {
+      print_info(current_file);
+    }
+  }
+
+  closedir(dir);
+  dir = opendir(".");
+
+  // now do files
+  while ((current_file = readdir(dir)) != NULL) {
+    if (current_file->d_type == FILE_D_TYPE) {
+      print_info(current_file);
+    }
   }
 
   return 0;
