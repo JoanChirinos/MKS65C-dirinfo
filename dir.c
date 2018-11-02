@@ -90,7 +90,7 @@ int main() {
   if(total < 1000)
   printf("Total: %ldB\n", total);
   else if (total < 1000000)
-  printf("Totall: %ld.%ldKB\n", total/1000, total%1000);
+  printf("Total: %ld.%ldKB\n", total/1000, total%1000);
   else if (total < 1000000000)
   printf("Total: %ld.%ldMB\n", total/1000000, total%1000000);
   else
