@@ -134,10 +134,10 @@ void print_info(struct dirent* file) {
     if (file->d_type == FILE_D_TYPE) {
       size = file_stats->st_size;
     }
-    if (size >= 1000000000) {printf("%4lld G\t", size / 1000000000);}
-    else if (size >= 1000000) {printf("%4lld M\t", size / 1000000);}
-    else if (size >= 1000) {printf("%4lld K\t", size / 1000);}
-    else printf("%4lld B\t", size);
+    if (size >= 1000000000) {printf("%4lld G", size / 1000000000);}
+    else if (size >= 1000000) {printf("%4lld M", size / 1000000);}
+    else if (size >= 1000) {printf("%4lld K", size / 1000);}
+    else printf("%4lld B", size);
   }
 
   // time
