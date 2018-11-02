@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <pwd.h>
+#include <grp.h>
 
 const char FILE_D_TYPE = 8;
 const char DIRECTORY_D_TYPE = 4;
@@ -110,10 +112,16 @@ void print_info(struct dirent* file) {
   printf("%3lu ", file_stats->st_nlink);
 
   // user
-  printf("%3u ", file_stats->st_uid);
+  // printf("%3u ", file_stats->st_uid);
+
+  struct passwd* user_info = getpwuid(file_stats->st_uid);
+  printf("%s  ", user_info->pw_name);
 
   // group
-  printf("%3u ", file_stats->st_gid);
+  //printf("%3u ", file_stats->st_gid);
+
+  struct group* group_info = getgrgid(file_stats->st_gid);
+  printf("%s ", group_info->gr_name);
 
   if (!strcmp(file->d_name, "..")) {
     printf("   ? B\t");
