@@ -11,6 +11,7 @@
 const char FILE_D_TYPE = 8;
 const char DIRECTORY_D_TYPE = 4;
 
+
 long long int size_of_dir(char* path) {
   long long int total_size = 0;
 
@@ -59,6 +60,28 @@ long long int size_of_dir(char* path) {
   return total_size;
 }
 
+void printHelper(int fileMode, int b, int c, char p) {
+  if ((fileMode & b) && (fileMode & c))
+  printf("%c",p);
+  else
+  printf("-");
+}
+
+void printPermissions(int fileMode) {
+  /* owner permissions */
+  printHelper(fileMode, S_IRUSR, S_IREAD, 'r');
+  printHelper(fileMode, S_IWUSR, S_IWRITE, 'w');
+  printHelper(fileMode, S_IXUSR, S_IEXEC, 'x');
+  /* group permissions */
+  printHelper(fileMode, S_IRGRP, S_IREAD, 'r');
+  printHelper(fileMode, S_IWGRP, S_IWRITE, 'w');
+  printHelper(fileMode, S_IXGRP, S_IEXEC, 'x');
+  /* other user permissions */
+  printHelper(fileMode, S_IROTH, S_IREAD, 'r');
+  printHelper(fileMode, S_IWOTH, S_IWRITE, 'w');
+  printHelper(fileMode, S_IXOTH, S_IEXEC, 'x');
+}
+
 void print_info(struct dirent* file) {
   // get file stats
   struct stat* file_stats = calloc(sizeof(struct stat), 1);
@@ -67,7 +90,17 @@ void print_info(struct dirent* file) {
   // mode
   char* readable_mode = calloc(sizeof(char), 12);
   // converts octal mode to what we see in ls -l
-  strmode(file_stats->st_mode, readable_mode);
+  // strmode is a mac thing!
+  //strmode(file_stats->st_mode, readable_mode);
+
+  if (file->d_type == DIRECTORY_D_TYPE) {
+      printf("d");
+  }
+  if (file->d_type == FILE_D_TYPE) {
+    printf("-");
+  }
+  printPermissions(file_stats->st_mode);
+
   // printing mode
   printf("%s ", readable_mode);
   // freeing so I don't forget later
@@ -112,6 +145,14 @@ int main() {
   // long long int dir_size = size_of_dir(".");
   // printf("total size of /. : %lld B\n", dir_size);
   // print_file_info("./mydir.c");
+
+  printf("total ");
+  long long int size = size_of_dir(".");
+  if (size >= 1000000000) {printf("%lld G", size / 1000000000);}
+  else if (size >= 1000000) {printf("%lld M", size / 1000000);}
+  else if (size >= 1000) {printf("%lld K", size / 1000);}
+  else printf("%lld B", size);
+  printf("\n");
 
   DIR* dir = opendir(".");
   struct dirent* current_file;
