@@ -124,7 +124,7 @@ void print_info(struct dirent* file) {
   printf("%s ", group_info->gr_name);
 
   if (!strcmp(file->d_name, "..")) {
-    printf("   ? B\t");
+    printf("   ? B  ");
   }
   else {
     long long int size;
