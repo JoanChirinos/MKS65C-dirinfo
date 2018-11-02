@@ -73,13 +73,14 @@ void statP(char * str) {
 }
 
 int main() {
-  DIR *mydir = opendir("temp_dir");;
+  char desired_dir[100] = "temp_dir";
+  DIR *mydir = opendir(desired_dir);;
   struct dirent *myfile;
   struct stat *mystat = calloc(sizeof(struct stat), 1);
   long int total;
   char buf[512];
 
-  printf("\nStatistics for current directory: .\n");
+  printf("\nStatistics for %s: \n", desired_dir);
   while((myfile = readdir(mydir)) != NULL ) {
     stat(myfile ->d_name, mystat);
     total += mystat -> st_size;
@@ -95,7 +96,7 @@ int main() {
   else
   printf("Total: %ld.%ldGB\n", total/1000000000, total%1000000000);
 
-  mydir = opendir("temp_dir");
+  mydir = opendir(desired_dir);
   myfile = readdir(mydir);
   // printing dirs
   printf("\ndirectories: \n");
@@ -107,10 +108,10 @@ int main() {
   }
   // printing files
   printf("\nfiles: \n");
-  mydir = opendir("temp_dir");
+  mydir = opendir("./");
   while((myfile = readdir(mydir)) != NULL) {
     if(myfile -> d_type == 8) {
-      char filename[50] = "temp_dir/";
+      char filename[50] = "./";
       strcat(filename, myfile -> d_name);
       // printf("current name: %s\n", filename);
       statP(filename);
