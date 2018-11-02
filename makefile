@@ -1,8 +1,8 @@
 all:
-	gcc dir.c
+	gcc -o my_ls dir.c
 
 run:
-	./a.out
+	./my_ls
 
 clean:
-	rm -rf a.out
+	rm -rf ./my_ls
