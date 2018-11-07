@@ -163,19 +163,23 @@ void printAll(char * path) {
 }
 
 int main(int argc, char* argv[]) {
-    if (argc == 1) {
-        printf("Please enter a PATH to a directoy!\n");
-        return 0;
-    } else if (argc == 2) {
-        FILE * straw;
-        int errnum;
-        straw = fopen(argv[1], "rb");
-        if (straw == NULL) {
-            errnum = errno;
-            printf("Error opening file: %s\n", strerror(errnum));
-        } else {
-            printAll(argv[1]);
-            return 0;
-        }
-    }
+  FILE * straw;
+  int errnum;
+  char path[256];
+  if (argc == 1) {
+    printf("Path to directory: ");
+    scanf("%s", path);
+  }
+  else if (argc == 2) {
+    strcpy(path, argv[1]);
+  }
+  straw = fopen(path, "rb");
+  if (straw == NULL) {
+    errnum = errno;
+    printf("Error opening file: %s\n", strerror(errnum));
+  }
+  else {
+    printAll(path);
+    return 0;
+  }
 }
